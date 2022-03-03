@@ -20,6 +20,15 @@
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/vendors/css/prism.min.css') ?>">
 
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/app.css') ?>">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#datepicker" ).datepicker();
+  } );
+  </script>
 
 </head>
 
@@ -50,47 +59,72 @@
               <div class="card-body">
                 <div class="card-block">
 
-                <select class="selectpicker" id ="select_val" onchange="show_detail(this.value);">
+                <!-- <select class="selectpicker" id ="select_val" onchange="show_detail(this.value);">
             
              
-            </select>
-            <button type="button" onclick="function_show();">+</button>
-            <div class="row" style="display:none;" id="show_div">
+            </select> -->
+            <!-- <button type="button" onclick="function_show();">+</button> -->
+            <div class="row"  id="show_div">
 
-                  <form id="frm" class="xhr_form">
-			<div class="form-group">
+            <form action="<?php echo base_url(); ?>User/user_data_store" onsubmit="return AddUserValidation()" method="post" autocomplete="off" enctype="multipart/form-data">
+		          	<div class="form-group">
                       <div class="col-md-12">
-                      <label>User Name *</label>
+                      <label>Name *</label>
                         <input type="text" class="form-control form-control-lg" name="u_name" id="u_name" placeholder="User name" required>
                         <p id="user_email_error"></p>
                       </div>
-                    </div>
-			<div class="form-group">
+                </div>
+			         <div class="form-group">
                       <div class="col-md-12">
-                      <label>Name *</label>
-                        <input type="text" class="form-control form-control-lg" name="name" id="name" placeholder="Name" required>
+                      <label>Email *</label>
+                        <input type="email" class="form-control form-control-lg" name="email" id="email" placeholder="Email" >
                         <p id="user_email_error"></p>
                       </div>
-                    </div>
+              </div>
                    
                     <div class="form-group">
                       <div class="col-md-12">
-                      <label>Password *</label>
-                        <input type="text" class="form-control form-control-lg" name="password" id="password" placeholder="Password" required>
+                      <label>Subject *</label>
+                        <input type="text" class="form-control form-control-lg" name="subject" id="subject" placeholder="Subject" >
                         <p id="user_email_error"></p>
                       </div>
                     </div>
- 			<div class="form-group">
+ 		        	<div class="form-group">
                       <div class="col-md-12">
-                      <label>Otp Mail *</label>
-                        <input type="email" class="form-control form-control-lg" name="email" id="email" placeholder="Email Address" required>
+                      <label>Date *</label>
+                        <input type="text" class="form-control form-control-lg" name="date_val" id="datepicker" placeholder="Date" >
+                        <p id="user_email_error"></p>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-md-12">
+                      <label>Message *</label>
+                        <input type="text" class="form-control form-control-lg" name="msg" id="msg" placeholder="Message" >
                         <p id="user_email_error"></p>
                       </div>
                     </div>
 
                     <div class="form-group">
+                      <div class="col-md-12">
+                      <label>Time *</label>
+                      <input type="time" id="time_val" name="time_val" min="00:00" max="24:00" >
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-md-12">
+                      <label> File upload (optional)</label>
+                      <label for="" class=" form-control-label">Profile Image [ Image size (100x100) should be maximum 500KB and type should be jpg,jpeg,JPG,JPEG,png,PNG]</label>
+                                             <input type="file" id="profile_image" name="profile_image" placeholder="Upload Image" class="form-control" autocomplete="off">
+                      </div>
+                    </div>
+
+                   
+
+                  
+
+                    <div class="form-group">
                       <div class="text-center col-md-12">
-			<input type="hidden" name="user_id" id="user_id">
+			              <input type="hidden" name="user_id" id="user_id">
                         <button type="submit" class="btn btn-primary px-4 py-2 text-uppercase white font-small-4 box-shadow-2 border-0">Submit</button>
                       </div>
                     </div>
@@ -102,23 +136,46 @@
             </div>
           </div>
         </div>
-s      </div>
+      </div>
     </section>
 
     <!--Login Page Ends-->
   </div>
 
-  <script src="<?= base_url('assets/vendors/js/core/jquery-3.3.1.min.js') ?>"></script>
-  <script src="<?= base_url('assets/vendors/js/core/bootstrap.min.js') ?>"></script>
-  <script src="<?= base_url('assets/vendors/js/perfect-scrollbar.jquery.min.js') ?>"></script>
-  <script src="<?= base_url('assets/vendors/js/jquery.matchHeight-min.js') ?>"></script>
-  <script src="<?= base_url('assets/vendors/js/screenfull.min.js') ?>"></script>
-  <script src="<?= base_url('assets/vendors/js/pace/pace.min.js') ?>"></script>
+
   <script>
 
 $(document).ready(function () {
 get_data();
 });
+
+
+function AddUserValidation(){
+            // var emp_code = $('[name=emp_code]').val();
+            var u_name = $("#u_name").val();
+            var email = $("#email").val();
+            var subject = $("#subject").val();
+            var datepicker = $("#datepicker").val();
+            var msg = $("#msg").val();
+            var time_val = $("#time_val").val();
+         
+            // var name = $('[name=name]').val();
+           
+            if(u_name=="" || email=="" || subject=="" || datepicker=="" || msg=="" || time_val==""){
+               alert("Please fill out all fields");
+               return false;
+            }
+            
+         }
+
+// $( "#datepicker" ).datepicker({
+// 		showOn: "button",
+// 		// buttonImage: "datepicker/images/calendar.gif",
+// 		dateFormat:"dd/mm/yy",
+// 		buttonImageOnly: true,
+// 		changeMonth: true,
+// 		changeYear: true
+// 	});
 
 
 function get_data(){
@@ -132,7 +189,7 @@ function get_data(){
         success:function(response){
             
 	
-	var selectElem = $("#select_val");
+	                                 var selectElem = $("#select_val");
                         selectElem.html('<option value="All">Select User</option>');
                         $.each(response, function(index){
                           $("<option/>", {
